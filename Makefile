@@ -1,6 +1,6 @@
 DUT ?= toggle_bit.v
 DUTWAP ?= toggle_bit_wrapper.v
-TEST_PY ?= test_toggle_bit.v
+TEST_PY ?= test_toggle_bit.py
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 
