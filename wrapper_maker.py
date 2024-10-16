@@ -32,7 +32,6 @@ def generate_wrapper(verilog_file, wrapper_file):
             outputs[i] = outputs[i][0:-1]
         outputs[i] = ' '.join(outputs[i].strip().split())
 
-    # 写入wrapper文件
     with open(wrapper_file, 'w') as wfile:
         wfile.write(f"module {module_name}_wrapper (\n")
         for inp in inputs:

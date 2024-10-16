@@ -114,10 +114,20 @@ def ins_gen(itype, boundary=0):
     return_list.append(rd)
     return return_list
 
-tmp = ins_gen('R')
-ins = format(tmp[0], '032b')
-print(ins)
-print(tmp[1])
-print(tmp[2])
-print(tmp[3])
-print(tmp[4])
+# opcode = 0b0001111
+# pred = random.randint(0, 15)
+# succ = random.randint(0, 15)
+# #fence
+# ins_temp = 0b0000<<28 | pred<<24 | succ<<20 | opcode
+#
+# print(format(ins_temp, '032b'))
+
+# tmp = ins_gen('R')
+# ins = tmp[0]
+# print(ins)
+# print(tmp[1])
+# print(tmp[2])
+# print(tmp[3])
+# print(tmp[4])
+
+

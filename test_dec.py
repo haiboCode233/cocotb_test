@@ -107,11 +107,30 @@ def ins_gen(itype, boundary=0):
     elif itype == 'M':
         # fence,fence.i
         opcode = 0b0001111
+        pred = random.randint(0, 15)
+        succ = random.randint(0, 15)
+        #fence
+        ins_temp = 0b0000<<28 | pred<<24 | succ<<20 | opcode
+        ins_list.append(ins_temp)
+        #fence.i
+        ins_list.append(0b00000000000000000001000000001111)
         pass
     elif itype == 'P':
         # ecall,ebreak,csrrw,csrrs,csrrc,csrrwi,csrrsi,csrrci
         opcode = 0b1110011
-        pass
+        csr = random.randint(0, 4095)
+        rs1 = random.randint(0, 31)
+        rd  = random.randint(0, 31)
+        funct3_all = [0b000, 0b001, 0b010, 0b011, 0b101, 0b110, 0b111]
+        for funct3 in funct3_all:
+            if funct3 == 0b000:
+                # ecall
+                ins_list.append(0b00000000000000000000000001110011)
+                # ebreak
+                ins_list.append(0b00000000000100000000000001110011)
+            else:
+                ins_temp = csr << 20 | rs1 << 15 | funct3 << 12 | rd << 7 | opcode
+                ins_list.append(ins_temp)
     ins_pick =  ins_list[random.randint(0, len(ins_list)-1)]
     return_list.append(ins_pick)
     return_list.append(imm)
@@ -137,9 +156,8 @@ async def test_R(dut):
 
     # Test R-Type Instruction
     INS = ins_gen('R')
-    dut.inst_in.value = format(INS[0], '032b')
+    dut.inst_in.value = INS[0]
     await Timer(60, units="ns")
-    # assert dut.dec_add.value == 1, "ADD signal not set correctly"
     assert dut.dec_rd.value  == INS[4], "dec_rd incorrect"
     assert dut.dec_rs1.value == INS[3], "dec_rs1 incorrect"
     assert dut.dec_rs2.value == INS[2], "dec_rs2 incorrect"
