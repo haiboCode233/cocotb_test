@@ -7,7 +7,7 @@ from cocotb.triggers import RisingEdge, Timer
 async def cycle_counter(dut):
     while True:
         await RisingEdge(dut.hclk)
-        dut.cycle_cnt.value = dut.cycle_cnt.value + 1
+        dut.cycle_cnt.value = (dut.cycle_cnt.value % 4) + 1
 
 # R type
 @cocotb.test()
